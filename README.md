@@ -157,40 +157,21 @@ LINKUP_API_KEY=linkup-xxxxxxxxxxxx
 
 This step walks you through installing and running Coral Studio locally on your machine.
 
-### 1. Clone Coral Studio Repository
+### 1. Run coral studio
 
 Open your terminal (Git Bash or PowerShell) and run:
 
 ```bash
-git clone https://github.com/Coral-Protocol/coral-studio.git
+npx @coralprotocol/coral-studio@latest
 ```
 
-### 2. Move into the project directory
-```bash
-cd coral-studio
-```
-
-### 3. Install dependencies
-```bash
-npm install
-```
-If you're using pnpm, you can also run:
-```bash
-pnpm install
-```
-
-### 4. Start Coral Studio
-Run the dev server:
-```bash
-npm run dev
-```
 This will start the Studio UI at:
 ```
 http://localhost:3000
 ```
 Your browser should open automatically. If it doesn't, open it manually.
 
-### 5. Confirm It's Working
+### 2. Confirm It's Working
 You should see:
 - A homepage for Coral Studio
 - An option to create a session or connect to Coral Server
@@ -201,7 +182,7 @@ Coral-UI should look like this
 
 ---
 
-## Set Up Coral Server (Backend)
+## Run the coral server
 
 **Coral Server** is the engine that runs your multi-agent sessions, executes agent logic, and facilitates communication between agents.
 
@@ -219,13 +200,16 @@ git clone https://github.com/Coral-Protocol/coral-server.git
 ```bash
 cd coral-server
 ```
+### 3. Run the Coral Server with Gradle
+To start the Coral Server, run:
 
-### 3. Install dependencies
-If you're using npm:
 ```bash
-npm install
+./gradlew run
 ```
-Or use pnpm install if your system is configured to use pnpm.
+
+This will launch the server,
+which acts as a control pane that creates instances of agents
+connected to their individualised MCP servers allowing them to communicate and collaborate.
 
 ### 4. Ensure You Have an application.yaml
 Your configuration file should be placed here:
@@ -262,7 +246,7 @@ Before building a multi-agent system, we need to decide **what kind of task our 
 
 Coral supports a modular approach using agents and in our case, we are using an **Interface Agent**, which wraps powerful tools like LangChain, OpenAI.
 
-### What is Agent?
+### What is an Agent?
 
 An agent is simply:
 - A Python (or other) script
