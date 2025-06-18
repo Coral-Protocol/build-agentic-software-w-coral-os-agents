@@ -84,7 +84,7 @@ A fully working local Coral setup with:
 - A session where agents **communicate, take actions, and return results**
 
 You'll be able to:
-- Create sessions via the UI or Postman
+- Create sessions via the UI
 - Route messages between agents using structured threads
 - Extend or replace agents based on your needs
 
@@ -482,13 +482,6 @@ You can also send prompts manually using the SendMessage API (for debugging or c
 
 ---
 
-## UI Exploration
-
-We also explored the Coral debug UI. It currently focuses on session debugging, so we used Postman for input testing, which worked smoothly.
-
-![Creating thread in coral-dbg](./assets/gifs/creating_thread.gif)
-
-> The UI allows thread creation for active sessions, but interaction remains limited. Postman was used for input/output testing.
 
 
 # Registry Specification
