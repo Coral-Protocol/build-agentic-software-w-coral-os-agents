@@ -162,23 +162,24 @@ This step walks you through installing and running Coral Studio locally on your 
 Open your terminal (Git Bash or PowerShell) and run:
 
 ```bash
-npx @coralprotocol/coral-studio@latest
+docker run -p 3000:3000 ghcr.io/coral-protocol/coral-studio
 ```
 
 This will start the Studio UI at:
 ```
 http://localhost:3000
 ```
-Your browser should open automatically. If it doesn't, open it manually.
+Open this URL in your web browser to access the Coral Studio interface.
 
 ### 2. Confirm It's Working
 You should see:
-- A homepage for Coral Studio
+- A dashboard for Coral Studio
 - An option to create a session or connect to Coral Server
-- A visual interface to select agents and manage interactions
+- A visual interface to observe and interact with threads and agents
 
-Coral-UI should look like this
-<img width="957" alt="Image" src="https://github.com/user-attachments/assets/819ce48e-b740-459f-a0aa-9eb23ec66c1f" />
+[//]: # (Coral-UI should look like this)
+
+[//]: # (<img width="957" alt="Image" src="https://github.com/user-attachments/assets/819ce48e-b740-459f-a0aa-9eb23ec66c1f" />)
 
 ---
 
@@ -188,55 +189,23 @@ Coral-UI should look like this
 
 In this step, you'll set up and start Coral Server locally using your own `application.yaml` config.
 
-### 1. Clone the Coral Server Repository
+### 1. Run the Coral Server from Docker
 
-Navigate to your project root and run:
+First we will create a temporary application.yaml file which we will later populate with our agents.
 
 ```bash
-git clone https://github.com/Coral-Protocol/coral-server.git
+mkdir config
+touch application.yaml # create an empty application.yaml file
 ```
 
-### 2. Move into the server directory
 ```bash
-cd coral-server
-```
-### 3. Run the Coral Server with Gradle
-To start the Coral Server, run:
-
-```bash
-./gradlew run
+docker run --name coral-server -p 5555:5555 -v ./application.yaml:/config coral-server
 ```
 
 This will launch the server,
 which acts as a control pane that creates instances of agents
 connected to their individualised MCP servers allowing them to communicate and collaborate.
 
-### 4. Ensure You Have an application.yaml
-Your configuration file should be placed here:
-```
-coral-server/src/main/resources/application.yaml
-```
-It defines:
-- Agents to load
-- Runtime commands
-- Application sessions
-
-Sample structure (application.yaml):
-```
-registry:
-  coral-interface:
-    runtime:
-      command: ["bash", "-c", "cd ../Coral-Interface-Agent && uv sync && uv run python 0-langchain-interface.py"]
-      environment:
-        - name: OPENAI_API_KEY
-          from: OPENAI_API_KEY
-
-applications:
-  - id: "app"
-    name: "Multi-Agent Test App"
-    privacyKeys:
-      - "priv"
-```
 
 ---
 
@@ -323,168 +292,206 @@ This file tells Coral Server:
 - What environment variables they need
 - How to define applications and sessions
 
-### Location of `application.yaml`
 
-Place your config here inside the Coral Server repo:
-```
-coral-server/src/main/resources/application.yaml
-```
+We'll edit the file we made earlier to have the agents we want.
+
+Edit `config/application.yaml`
 
 ### Sample Config Structure
 
 Here's a sample setup using 3 agents: `coral-interface`, `coral-repo`, and `coral-research`.
 
+If you're following along, paste this into your `application.yaml` file.
+
 ```yaml
-registry:
-  coral-interface:
-    options:
-      - name: "OPENAI_API_KEY"
-        type: "string"
-        description: "OpenAI API Key for Interface Agent"
-    runtime:
-      type: "executable"
-      command:
-        [
-          "bash",
-          "-c",
-          "cd ../Coral-Interface-Agent && uv sync && uv run <name of your agent file in .py format>"
-        ]
-      environment:
-        - name: "OPENAI_API_KEY"
-          from: "OPENAI_API_KEY"
-
-  coral-repo:
-    options:
-      - name: "OPENAI_API_KEY"
-        type: "string"
-      - name: "GITHUB_PERSONAL_ACCESS_TOKEN"
-        type: "string"
-    runtime:
-      type: "executable"
-      command:
-        [
-          "bash",
-          "-c",
-          "cd ../Coral-RepoUnderstanding-Agent && uv sync && uv run <name of your agent file in .py format>"
-        ]
-      environment:
-        - name: "OPENAI_API_KEY"
-          from: "OPENAI_API_KEY"
-        - name: "GITHUB_PERSONAL_ACCESS_TOKEN"
-          from: "GITHUB_PERSONAL_ACCESS_TOKEN"
-
-  coral-research:
-    options:
-      - name: "OPENAI_API_KEY"
-        type: "string"
-      - name: "LINKUP_API_KEY"
-        type: "string"
-    runtime:
-      type: "executable"
-      command:
-        [
-          "bash",
-          "-c",
-          "cd ../Coral-OpenDeepResearch-Agent && uv sync && uv run python <name of your agent file in .py format>"
-        ]
-      environment:
-        - name: "OPENAI_API_KEY"
-          from: "OPENAI_API_KEY"
-        - name: "LINKUP_API_KEY"
-          from: "LINKUP_API_KEY"
-```
-
-###  Define an Application (Required for Sessions)
-At the bottom of the file, define your app like this:
-```
 applications:
   - id: "app"
-    name: "any name"
-    description: "any description"
+    name: "Default Application"
+    description: "Default application for testing"
     privacyKeys:
+      - "default-key"
+      - "public"
       - "priv"
-```
-This applicationId and privacyKey are required when creating sessions via Coral Studio or Postman.
 
+# Registry of agents we can orchestrate
+registry:
+  repounderstanding:
+    # Exposed configuration for consumers of this agent
+    options:
+      - name: "OPENAI_API_KEY"
+        type: "string"
+        description: "OpenAI API Key"
+      - name: "GITHUB_ACCESS_TOKEN"
+        type: "string"
+        description: "GitHub Access Token"
+
+    # How this agent is actually orchestrated locally
+    runtime:
+      type: "docker"
+      environment:
+        - name: "API_KEY"
+          from: "OPENAI_API_KEY"
+        - name: "GITHUB_ACCESS_TOKEN"
+          from: "GITHUB_ACCESS_TOKEN"
+      image: "sd2879/coral-repounderstanding:latest"
+
+  deepresearch:
+    options:
+      - name: "OPENAI_API_KEY"
+        type: "string"
+        description: "OpenAI API Key"
+      - name: "LINKUP_API_KEY"
+        type: "string"
+        description: "LinkUp API Key. Get from https://linkup.so/"
+
+    runtime:
+      type: "docker"
+      environment:
+        - name: "API_KEY"
+          from: "OPENAI_API_KEY"
+      image: "sd2879/coral-opendeepresearch:latest"
+
+  interface:
+    options:
+      - name: "OPENAI_API_KEY"
+        type: "string"
+        description: "OpenAI API Key"
+      - name: "HUMAN_RESPONSE"
+        type: "string"
+        description: "Human response to be used in the interface agent"
+
+    runtime:
+      type: "docker"
+      image: "sd2879/coral-interface-agent:latest"
+      environment:
+        - name: "API_KEY"
+          from: "OPENAI_API_KEY"
+        - name: "HUMAN_RESPONSE"
+          from: "HUMAN_RESPONSE"
+
+```
+
+[//]: # (TODO: Explain the YAML structure and how to add more agents)
 ---
 
-## Start Coral Server & Create a Session
+## Creating a Session
+After editing your `application.yaml` file, the server will have hot-reloaded the changes, and you can now create a session to connect your agents.
 
-This step covers two key actions:
-1. Starting the Coral backend
-2. Creating a session so agents can communicate
+1. Creating a session so agents can communicate
 
 ### What's Happening in This Step?
 
 - The Coral server acts as a central hub.
 - Sessions define which agents are active and how they talk.
-- You'll start the server using Gradle, then create a session using Postman.
 
-### 1. Start the Coral Server
+### 1. Ensure the server has reloaded the new configuration
 
-Open a new terminal window and navigate to your `coral-server` folder.
-Run by using following command.
+Check the coral server logs in the terminal where you started it. You should see messages indicating that the agents have been loaded successfully.
+If it's running headless, you can check the logs by running:
 
 ```bash
-cd coral-server
-./gradlew run
-```
-This starts the server on:
-```
-http://localhost:5555
-```
-| Note: Gradle may appear and stop at 83%, but the server is running. Check the terminal logs to confirm. Leave this terminal running! The server must stay active while testing.
-
-### Connect your Agent using a session
-
-#### Create a Session (via Postman)
-With the server running, you now create a session to activate the agent.
-
-Endpoint
-```bash
-http://localhost:5555/sessions
-(POST- Method)
+docker logs coral-server
 ```
 
-#### Instructions for Postman
+[//]: # (TODO: Link separately to different ways of creating sessions)
+[//]: # (### Connect your Agents using a session)
 
-- Open Postman
-- Set method to POST
-- Use URL: http://localhost:5555/sessions
-- Under Body, select raw → JSON
-- Paste the JSON body shown below
-- Click Send
+[//]: # (#### Create a Session &#40;via Postman&#41;)
 
-JSON Body:
-```
-{
-  "sessionId": "test",
-  "applicationId": "app",
-  "privacyKey": "priv",
-  "agentGraph": {
-    "agents": {
-      "my-agent": {
-        "type": "local",
-        "agentType": "interface2",
-        "options": {
-          "OPENAI_API_KEY": "your-openai-key-here"
-        }
-      }
-    },
-    "links": [["your agent name here"]]
-  }
-}
-```
+[//]: # (With the server running with the latest config, you now create a session to activate the agent.)
 
-### Expected Response
-```json
-{
-  "sessionId": "id here",
-  "applicationId": "value here",
-  "privacyKey": "value here"
-}
-```
+[//]: # ()
+[//]: # (Endpoint)
+
+[//]: # (```bash)
+
+[//]: # (http://localhost:5555/sessions)
+
+[//]: # (&#40;POST- Method&#41;)
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (#### Instructions for Postman)
+
+[//]: # ()
+[//]: # (- Open Postman)
+
+[//]: # (- Set method to POST)
+
+[//]: # (- Use URL: http://localhost:5555/sessions)
+
+[//]: # (- Under Body, select raw → JSON)
+
+[//]: # (- Paste the JSON body shown below)
+
+[//]: # (- Click Send)
+
+[//]: # ()
+[//]: # (JSON Body:)
+
+[//]: # (```)
+
+[//]: # ({)
+
+[//]: # (  "sessionId": "test",)
+
+[//]: # (  "applicationId": "app",)
+
+[//]: # (  "privacyKey": "priv",)
+
+[//]: # (  "agentGraph": {)
+
+[//]: # (    "agents": {)
+
+[//]: # (      "my-agent": {)
+
+[//]: # (        "type": "local",)
+
+[//]: # (        "agentType": "interface2",)
+
+[//]: # (        "options": {)
+
+[//]: # (          "OPENAI_API_KEY": "your-openai-key-here")
+
+[//]: # (        })
+
+[//]: # (      })
+
+[//]: # (    },)
+
+[//]: # (    "links": [["your agent name here"]])
+
+[//]: # (  })
+
+[//]: # (})
+
+[//]: # (```)
+
+[//]: # ()
+[//]: # (### Expected Response)
+
+[//]: # (```json)
+
+[//]: # ({)
+
+[//]: # (  "sessionId": "id here",)
+
+[//]: # (  "applicationId": "value here",)
+
+[//]: # (  "privacyKey": "value here")
+
+[//]: # (})
+
+[//]: # (```)
 ![Creating Session in UI](./assets/gifs/creating_session.gif)
+
+### Creating a session via Coral Studio
+In production, you would typically just make a POST request using your preferred HTTP client library from your application code.
+
+For development purposes it makes sense to use Curl, Postman, or the Coral Studio UI to create sessions.
+
+Let's use the Coral Studio UI to create a session.
 
 ### Sending Messages to Agents
 
@@ -493,87 +500,6 @@ You can also send prompts manually using the SendMessage API (for debugging or c
 ![Send Message API Flow](./assets/gifs/SendMesageAPi.gif)
 
 > This is useful when testing agents without a UI or simulating user input.
-
----
-
-## Run the Agent
-
-Now that the Coral server is running and a session has been created, it's time to run your Agent so it can listen for and respond to messages.
-
-### Running the agent means:
-- Coral can trigger it based on the session
-- It will handle user messages or call external tools (like OpenAI)
-
-### Run Agents
-#### Navigate to the Agent Directory
-
-Now that your Coral Server is running and your session is created, it's time to run your selected agents locally.
-Each agent runs independently and connects back to Coral Server to participate in a live session.
-
-This guide shows how to run one or multiple agents side-by-side.
-
-### 1. Confirm Agents in `application.yaml`
-
-Open your Coral Server config:
-```
-coral-server/src/main/resources/application.yaml
-```
-And in this file you registered all your agents that you want (we explained this in the previous file)
-
-### 2. Clone Agent Repos (if needed)
-Make sure all agent directories are cloned as siblings of your Coral Server folder:
-```
-your-root/
-├── coral-server/
-├── Coral-Interface-Agent/
-├── Coral-RepoUnderstanding-Agent/
-├── Coral-OpenDeepResearch-Agent/
-```
-Clone using:
-```
-git clone https://github.com/Coral-Protocol/Coral-Interface-Agent.git
-git clone https://github.com/Coral-Protocol/Coral-RepoUnderstanding-Agent.git
-git clone https://github.com/Coral-Protocol/Coral-OpenDeepResearch-Agent.git
-```
-
-### 3. Run Agents (One Per Terminal)
-You must run each agent in its own terminal.
-
-Terminal 1:
-```
-cd Coral-Interface-Agent
-uv run python <name of your agent file>
-```
-
-Terminal 2:
-```
-cd Coral-RepoUnderstanding-Agent
-uv run python <name of your agent file>
-```
-
-Terminal 3:
-```
-cd Coral-OpenDeepResearch-Agent
-uv run python <name of your agent file>
-```
-
-If everything is set up correctly, your terminal should output something like (example of 1 agent below):
-```
-Agent: How can I assist you today?
-```
-![Image](https://github.com/user-attachments/assets/8ae26013-ad64-4d98-a93c-100e733cf6a2)
-
-This confirms the agent is running and connected to the Coral session.
-
-![Agent Running in Terminal](./assets/gifs/AgentTerminalRunning.gif)
-
-### Final Running files?
-
-| Terminal         | Task                                     |
-|------------------|------------------------------------------|
-| Terminal 1       | Coral Server (`./gradlew run`)           |
-| Terminal 2       | Interface Agent (`uv run 0-langchain-interface.py`) |
-| Postman / curl   | Session creation request (`/sessions`)   |
 
 ---
 
