@@ -1,12 +1,9 @@
-# Coral Multi-Agent System Setup Guide
+# How to Build a Multi-Agent System with Awesome Open Source Agents in Coral Protocol
 
-This repo provides a step-by-step guide to build and run a complete **multi-agent system** using [Coral Protocol](https://github.com/Coral-Protocol), open-source agents, and Coral Studio.
 
-You’ll go from scratch to a fully working setup with:
-- Coral Server
-- Coral Studio (UI)
-- Multiple connected agents
-- Live sessions and outputs
+This guide provides a step-by-step guide to build and run a complete **multi-agent system** using [Coral Protocol](https://github.com/Coral-Protocol), open-source agents, and Coral Studio so you can view all the interactions visually.
+
+
 
 ---
 
@@ -23,39 +20,58 @@ You’ll go from scratch to a fully working setup with:
 | 7️⃣ | [Start Coral Server & Create a Session](#start-coral-server--create-a-session) | Start the server & create a session |
 | 8️⃣ | [Run the Agent](#run-the-agent) | Run one or more agents in separate terminals |
 
----
-
-## Key Components
-
-- **Coral Server** — Agent runtime & messaging backend  
-- **Coral Studio** — UI to create sessions and connect agents  
-- **application.yaml** — Your config file to define agents 
-
----
-
-## Open-Source Coral Repos
-
-- [Coral Server](https://github.com/Coral-Protocol/coral-server)  
-- [Coral Studio](https://github.com/Coral-Protocol/coral-studio)  
-- [Agent Registry](https://github.com/Coral-Protocol/awesome-agents-for-multi-agent-systems)  
 
 ---
 
 ## Introduction
 
-Welcome! This guide helps you set up a fully working **multi-agent system** using open-source agents from the **Coral Protocol** ecosystem.
 
-You'll go from a scratch to running live agents that collaborate using Coral Server and Coral Studio — step by step.
 
 ### What is Coral?
 
-**Coral Protocol** is an open-source framework for building intelligent, modular **multi-agent systems**.
+Coral Protocol provides a collaboration infrastructure for AI agents. It allows agent creators to publish agent advertisements that any other agent or any multi-agent application can immediately use on demand.
 
-It gives developers a way to:
-- Define agents that communicate and collaborate
-- Manage agent sessions and workflows via a central server
-- Interact with agents using a visual UI (Coral Studio)
-- Connect multiple agents (including LLM-powered ones) into a task-solving network
+Agent developers earn incentives when their agents are used.
+Application developers can mix and match from Coral’s growing library of agents to assemble advanced systems faster and without vendor lock-in.
+
+In this scenario, you would be an application developer, using Coral Procoal's local mode to build a multi-agent system with open source agents. 
+
+### Key Features
+
+- **Use pre-built agents**  
+  Leverage other developers’ pre-built, specialised agents to build your system.
+
+- **Framework/language agnostic**  
+  Use any framework or language when building or working with agents.
+
+- **Built-in privacy**  
+  Agents run in provably closed environments and are scoped to application-controlled sessions.
+
+- **Thread-based communication**  
+  Significantly better LLM performance through agent-based communication.
+
+---
+
+### Key Benefits
+
+- **Faster**  
+  Unlike other Python-based frameworks, you can run agents concurrently.
+
+- **Predictable**  
+  Because each agent attends to smaller problems and responsibilities, there's more control over where the agency is in your system—reducing surprises.
+
+- **Easy to deploy**  
+  Easily deploy just the coral server, and instances of your agents are deployed for you automatically.
+
+- **Scalable**  
+  Problems are by design decomposed more, so agents don’t have too much responsibility.
+
+### Key Components
+
+- **[Coral Server](https://github.com/Coral-Protocol/coral-server)** — running on your machine, it is an gent runtime & messaging backend
+- **[Coral Studio](https://github.com/Coral-Protocol/coral-studio)** — UI to create sessions and connect agents
+- **[Agent Registry](https://github.com/Coral-Protocol/awesome-agents-for-multi-agent-systems)** — Pre-built agents you can use for your agentic app
+
 
 ### What Will You Build?
 
@@ -72,41 +88,12 @@ You'll be able to:
 - Route messages between agents using structured threads
 - Extend or replace agents based on your needs
 
-### What Makes Coral Different?
 
-- **Structured agent collaboration** using threads, not just plain text
-- **Plug-and-Interact open-source agents** — no need to build from scratch
-- **Privacy-focused architecture** — agents run in isolated, scoped sessions
-- **UI + API support** — test with Coral Studio or Postman
-
-### What You'll Use
-
-In this guide, you'll work with:
-
-| Component       | Purpose                                     |
-|----------------|---------------------------------------------|
-| Coral Server    | Runs your agents and manages communication |
-| Coral Studio    | UI to manage agents, sessions, and input   |
-| Open-source Agents | Ready-to-use building blocks               |
-| application.yaml| Agent config + runtime definitions         |
-
-### Open-Source Coral Components
-
-| Component      | Link |
-|----------------|------|
-| Coral Server   | [coral-server](https://github.com/Coral-Protocol/coral-server) |
-| Coral Studio   | [coral-studio](https://github.com/Coral-Protocol/coral-studio) |
-| Agent Registry | [awesome-agents-for-multi-agent-systems](https://github.com/Coral-Protocol/awesome-agents-for-multi-agent-systems) |
 
 ### What You'll Do Next
 
-In the next steps, you'll:
+In the next steps, you'll build a complete multi-agent system using Coral Protocol.
 
-1. Install prerequisites (Python, Node, etc.)
-2. Set up Coral Studio and Coral Server
-3. Choose and configure your agents
-4. Run everything and create a working session
-5. Get output and test multi-agent collaboration
 
 ---
 
@@ -139,15 +126,7 @@ These are required to run agents, Coral Server, Coral Studio, and external LLMs 
 | **Visual Studio Code** | IDE for editing agent code and config |
 | **`.env` file support** | Use for storing API keys securely |
 
-### Environment Variables You'll Need
 
-These are typically set in a `.env` file or passed into agents via `application.yaml`:
-
-```env
-OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxx
-GITHUB_PERSONAL_ACCESS_TOKEN=ghp-xxxxxxxxxxxx
-LINKUP_API_KEY=linkup-xxxxxxxxxxxx
-```
 
 ---
 
@@ -510,3 +489,29 @@ We also explored the Coral debug UI. It currently focuses on session debugging, 
 ![Creating thread in coral-dbg](./assets/gifs/creating_thread.gif)
 
 > The UI allows thread creation for active sessions, but interaction remains limited. Postman was used for input/output testing.
+
+
+# Registry Specification
+- `registry` is a map of an agent type (unique name for this kind of agent), to an agent definition
+
+An agent definition consists of:
+- `options`, a list of configuration options we want to expose to users about this kind of agent
+  - each option has the following fields:
+    - `name` - the name of the option
+    - `type` - `"string"` or `"number"` (more to be added)
+    - `description` - human-readable description for this option
+    - `default` - an optional default value for this option
+      - if `default` is not set, the option is required to be set when orchestrated
+- `runtime` lets you define how the agent is actually orchestrated when requested
+  - `type` determines what kind of runtime (docker, k8s, etc.)
+  - currently only `"executable"` is supported, which runs a command as a subprocess, and has the following associated fields:
+    - `command` - list of arguments composing the final command
+      - it's best practice to put each part of a command as individual items in the list, since different shells can handle argument separation differently
+    - `environment` - list of environment variables to set when running the command
+      - each environment variable can take *any* of the following forms:
+        1. `name`/`value` - a static environment variable where `name`=`value`
+        2. `name`/`from` - an environment variable where the value is derived from an option, where `from` is the option we pull the value from
+        3. `option` - shorthand for `name`/`from`, for when they both have the same value
+
+## Executable runtime
+- When using the `executable` runtime, an extra environment variable (`CORAL_CONNECTION_URL`) is automatically injected, to provide the agent with the correct SSE url for connecting to Coral.
