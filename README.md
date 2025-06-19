@@ -38,17 +38,17 @@ In this scenario, you would be an application developer, using Coral Protocol's 
 
 ### Key Features
 
-- **Use pre-built agents**  
-  Leverage other developers’ pre-built, specialised agents to build your system.
+- **Leverage Pre-built Agents**  
+  Accelerate your development by integrating specialized, ready-to-use agents created by the community.
 
-- **Framework/language agnostic**  
-  Use any framework or language when building or working with agents.
+- **Framework/Language Agnostic**  
+  Flexibly develop and deploy agents using any programming framework or language of your choice.
 
-- **Built-in privacy**  
-  Agents run in provably closed environments and are scoped to application-controlled sessions.
+- **Built-in Privacy**  
+  Ensure privacy through agents operating in secure, closed environments restricted to specific application-managed sessions.
 
-- **Thread-based communication**  
-  Significantly better LLM performance through agent-based communication.
+- **Optimized Communication**  
+  Enhance Large Language Model (LLM) performance by structuring interactions through efficient, agent-centric communication threads.
 
 ---
 
