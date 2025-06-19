@@ -78,15 +78,15 @@ In this scenario, you would be an application developer, using Coral Protocol's 
 By the end of this guide, you'll have:
 
 A fully working local Coral setup with:
-- **Coral Server** running on your machine  
-- **Coral Studio** UI running in your browser  
-- **Two or more open-source agents** connected and ready  
-- A session where agents **communicate, take actions, and return results**
+- A **Coral Server** running on your machine for agent execution and interaction.  
+- The **Coral Studio** accessible through your browser.
+- **Multiple open-source agents** connected and ready.  
+- A functioning session where agents **communicate, take actions, and deliver results** effectively.
 
-You'll be able to:
-- Create sessions via the UI
-- Route messages between agents using structured threads
-- Extend or replace agents based on your needs
+You'll also gain the capability to:
+- Create and manage agent sessions using the UI.
+- Route messages between agents using structured threads.
+- Customize and expand your agent ecosystem according to your specific needs.
 
 
 
