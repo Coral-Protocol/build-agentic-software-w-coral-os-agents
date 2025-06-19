@@ -34,7 +34,7 @@ Coral Protocol provides a collaboration infrastructure for AI agents. It allows 
 Agent developers earn incentives when their agents are used.
 Application developers can mix and match from Coral’s growing library of agents to assemble advanced systems faster and without vendor lock-in.
 
-In this scenario, you would be an application developer, using Coral Protocol's local mode to build a multi-agent system with open source agents. 
+In this scenario, you would be an application developer, using Coral Protocol's local mode to build a multi-agent system by bringing together existing open source agents. 
 
 ### Key Features
 
@@ -54,22 +54,22 @@ In this scenario, you would be an application developer, using Coral Protocol's 
 
 ### Key Benefits
 
-- **Faster**  
-  Unlike other Python-based frameworks, you can run agents concurrently.
+- **Increased Efficiency**  
+  Coral enables concurrent execution of multiple agents, significantly enhancing system responsiveness compared to traditional Python-based sequential frameworks.
 
-- **Predictable**  
-  Because each agent attends to smaller problems and responsibilities, there's more control over where the agency is in your system—reducing surprises.
+- **Enhanced Predictability**  
+  By assigning smaller, specialized tasks to individual agents, Coral ensures greater control and predictability, minimizing unexpected outcomes.
 
-- **Easy to deploy**  
-  Easily deploy just the coral server, and instances of your agents are deployed for you automatically.
+- **Seamless Deployment**  
+  Simplify deployment by only launching the Coral server; Coral automatically handles instantiation and management of agent instances.
 
-- **Scalable**  
-  Problems are by design decomposed more, so agents don’t have too much responsibility.
+- **Scalable Design**  
+  Coral inherently decomposes complex problems, distributing tasks effectively among multiple agents, thus ensuring scalability and preventing individual agent overload.
 
 ### Key Components
 
-- **[Coral Server](https://github.com/Coral-Protocol/coral-server)** — running on your machine, it is an gent runtime & messaging backend
-- **[Coral Studio](https://github.com/Coral-Protocol/coral-studio)** — UI to create sessions and connect agents
+- **[Coral Server](https://github.com/Coral-Protocol/coral-server)** — running on your machine, it is an agent run-time & messaging backend
+- **[Coral Studio](https://github.com/Coral-Protocol/coral-studio)** — UI to create sessions and to connect to agents
 - **[Agent Registry](https://github.com/Coral-Protocol/awesome-agents-for-multi-agent-systems)** — Pre-built agents you can use for your agentic app
 
 
