@@ -1,4 +1,4 @@
-# How to Build a Multi-Agent System with Awesome Open Source Agents in Coral Protocol
+# How to Build a Multi-Agent System with Awesome Open Source Agents using Coral Protocol
 
 
 This guide provides a step-by-step guide to build and run a complete **multi-agent system** using [Coral Protocol](https://github.com/Coral-Protocol), open-source agents, and Coral Studio so you can view all the interactions visually.
@@ -29,12 +29,12 @@ This guide provides a step-by-step guide to build and run a complete **multi-age
 
 ### What is Coral?
 
-Coral Protocol provides a collaboration infrastructure for AI agents. It allows agent creators to publish agent advertisements that any other agent or any multi-agent application can immediately use on demand.
+Coral Protocol provides a collaboration infrastructure for AI agents. It allows agent developers to publish agent advertisements that any other agent or any multi-agent application can immediately use on demand.
 
 Agent developers earn incentives when their agents are used.
 Application developers can mix and match from Coral’s growing library of agents to assemble advanced systems faster and without vendor lock-in.
 
-In this scenario, you would be an application developer, using Coral Procoal's local mode to build a multi-agent system with open source agents. 
+In this scenario, you would be an application developer, using Coral Protocol's local mode to build a multi-agent system with open source agents. 
 
 ### Key Features
 
