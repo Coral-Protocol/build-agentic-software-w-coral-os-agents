@@ -337,7 +337,7 @@ registry:
 
     runtime:
       type: "docker"
-      image: "sd2879/coral-interface-agent:latest"
+      image: "coralprotocol/coral-interface-agent:latest"
       environment:
         - name: "API_KEY"
           from: "OPENAI_API_KEY"
