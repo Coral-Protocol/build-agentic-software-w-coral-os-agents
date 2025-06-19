@@ -173,12 +173,12 @@ In this step, you'll set up and start Coral Server locally using your own `appli
 First we will create a temporary application.yaml file which we will later populate with our agents.
 
 ```bash
-mkdir config
-touch application.yaml # create an empty application.yaml file
+mkdir config # create a config folder
+touch config/application.yaml # create an empty application.yaml file, in the config folder
 ```
 
 ```bash
-docker run --name coral-server -p 5555:5555 -v ./application.yaml:/config coral-server
+docker run --name coral-server -p 5555:5555 -v ./config:/config ghcr.io/coral-protocol/coral-server
 ```
 
 This will launch the server,
