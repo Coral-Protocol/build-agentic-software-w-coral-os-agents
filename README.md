@@ -107,6 +107,7 @@ These are required to run agents, Coral Server, Coral Studio, and external LLMs 
 
 | Tool | Version | Why You Need It |
 |------|---------|------------------|
+| **Docker** | latest | To run Coral Server and agents in containerized environments |
 | **Python** | 3.10+ | Needed for most agents (especially LangChain-based) |
 | **uv** | latest | Python environment & dependency manager (`pip install uv`) |
 | **Node.js** | 18+ | Required to run Coral Studio (the UI) |
