@@ -68,9 +68,9 @@ In this scenario, you would be an application developer, using Coral Protocol's 
 
 ### Key Components
 
-- **[Coral Server](https://github.com/Coral-Protocol/coral-server)** — running on your machine, it is an agent run-time & messaging backend
-- **[Coral Studio](https://github.com/Coral-Protocol/coral-studio)** — UI to create sessions and to connect to agents
-- **[Agent Registry](https://github.com/Coral-Protocol/awesome-agents-for-multi-agent-systems)** — Pre-built agents you can use for your agentic app
+- **[Coral Server](https://github.com/Coral-Protocol/coral-server)** — Backend run-time environment handling agent execution and messaging.
+- **[Coral Studio](https://github.com/Coral-Protocol/coral-studio)** — User-friendly UI for visual session and agent management.
+- **[Agent Registry](https://github.com/Coral-Protocol/awesome-agents-for-multi-agent-systems)** — Extensive library of ready-to-use agents provided by the community.
 
 
 ### What Will You Build?
