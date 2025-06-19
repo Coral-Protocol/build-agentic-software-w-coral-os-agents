@@ -192,15 +192,6 @@ connected to their individualised MCP servers allowing them to communicate and c
 
 Before building a multi-agent system, we need to decide **what kind of task our agent will perform**. With **Coral**, you can pick from a list of existing agents OR write your own.
 
-Coral supports a modular approach using agents and in our case, we are using an **Interface Agent**, which wraps powerful tools like LangChain, OpenAI.
-
-### What is an Agent?
-
-An agent is simply:
-- A Python (or other) script
-- That follows a communication protocol
-- And can be called by Coral to perform tasks
-
 ### Choose Agents from Coral Awsome Agents
 
 Visit the official Coral community list:
@@ -213,17 +204,22 @@ From there, pick one. For this tutorial, we're using:
 
 ### Choose Agents for Your Use Case
 
-Pick 1–3 agents depending on your goal.
+We are using an Interface Agent, Deep Research Agent, and Repo Understanding Agent to build a multi-agent system that can take in user requests for a GitHub link, understand the link and the repository, and then have the Deep Research Agent generate a full report on it.
 
-Example setup:
+Pick one or more agents depending on your goal. 
 
-| Agent ID | Description |
-|----------|-------------|
-| `coral-interface` | An interface agent that coordinates actions |
-| `coral-research` | Performs deep research using LLM + tools |
-| `coral-repo` | Analyzes GitHub repos using LangChain |
+**Example setup:**
 
-You can mix & match based on what you're trying to build.
+| Agent ID          | Description                                     |
+|-------------------|-------------------------------------------------|
+| `coral-interface` | An interface agent that coordinates actions     |
+| `coral-research`  | Performs deep research using LLM + tools        |
+| `coral-repo`      | Analyzes GitHub repos using LangChain           |
+
+You can mix and match based on what you're trying to build.
+
+For each agent you want to use, you need to find their Agent Snippets. If you are going to run it via the Docker Orchestrator, you will need to copy the Docker Agent Definition.
+
 
 ### Copy Agent Snippets (YAML Format)
 
@@ -250,7 +246,7 @@ that want to run and keep rest is same.
 
 ### Interface Agent
 
-This agent allows Coral to send tasks to LangChain workflows.
+This agent allows Coral to send tasks to other agents.
 
 ### Requirements
 
