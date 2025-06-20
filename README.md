@@ -273,6 +273,14 @@ We'll edit the file we made earlier to have the agents we want.
 
 Edit `config/application.yaml`
 
+### Pull the Agent Docker Images
+
+```bash
+docker pull coralprotocol/coral-repounderstanding
+docker pull coralprotocol/coral-opendeepresearch
+docker pull coralprotocol/coral-interface-agent
+```
+
 ### Sample Config Structure
 
 Here's a sample setup using 3 agents: `coral-interface`, `coral-repo`, and `coral-research`.
