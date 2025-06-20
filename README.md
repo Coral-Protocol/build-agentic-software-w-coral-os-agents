@@ -300,6 +300,9 @@ registry:
       - name: "GITHUB_ACCESS_TOKEN"
         type: "string"
         description: "GitHub Access Token"
+      - name: "CORAL_AGENT_ID"
+        type: "string"
+        description: "Agent ID"
 
     # How this agent is actually orchestrated locally
     runtime:
@@ -309,7 +312,9 @@ registry:
           from: "OPENAI_API_KEY"
         - name: "GITHUB_ACCESS_TOKEN"
           from: "GITHUB_ACCESS_TOKEN"
-      image: "sd2879/coral-repounderstanding:latest"
+        - name: "CORAL_AGENT_ID"
+          from: "CORAL_AGENT_ID"
+      image: "coralprotocol/coral-repounderstanding:latest"
 
   deepresearch:
     options:
@@ -319,13 +324,18 @@ registry:
       - name: "LINKUP_API_KEY"
         type: "string"
         description: "LinkUp API Key. Get from https://linkup.so/"
+      - name: "CORAL_AGENT_ID"
+        type: "string"
+        description: "Agent ID"
 
     runtime:
       type: "docker"
       environment:
         - name: "API_KEY"
           from: "OPENAI_API_KEY"
-      image: "sd2879/coral-opendeepresearch:latest"
+        - name: "CORAL_AGENT_ID"
+          from: "CORAL_AGENT_ID"
+      image: "coralprotocol/coral-opendeepresearch:latest"
 
   interface:
     options:
@@ -335,6 +345,9 @@ registry:
       - name: "HUMAN_RESPONSE"
         type: "string"
         description: "Human response to be used in the interface agent"
+      - name: "CORAL_AGENT_ID"
+        type: "string"
+        description: "Agent ID"
 
     runtime:
       type: "docker"
@@ -344,6 +357,8 @@ registry:
           from: "OPENAI_API_KEY"
         - name: "HUMAN_RESPONSE"
           from: "HUMAN_RESPONSE"
+        - name: "CORAL_AGENT_ID"
+          from: "CORAL_AGENT_ID"
 
 ```
 
