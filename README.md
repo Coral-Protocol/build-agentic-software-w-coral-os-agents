@@ -39,7 +39,7 @@ In this scenario, you would be an application developer, using Coral Protocol's 
 ### Key Features
 
 - **Leverage Pre-built Agents**  
-  Accelerate your development by integrating specialized, ready-to-use agents created by the community.
+  Accelerate your development by integrating specialised, ready-to-use agents created by the community.
 
 - **Framework/Language Agnostic**  
   Flexibly develop and deploy agents using any programming framework or language of your choice.
@@ -58,7 +58,7 @@ In this scenario, you would be an application developer, using Coral Protocol's 
   Coral enables concurrent execution of multiple agents, significantly enhancing system responsiveness compared to traditional Python-based sequential frameworks.
 
 - **Enhanced Predictability**  
-  By assigning smaller, specialized tasks to individual agents, Coral ensures greater control and predictability, minimizing unexpected outcomes.
+  By assigning smaller, specialised tasks to individual agents, Coral ensures greater control and predictability, minimising unexpected outcomes.
 
 - **Seamless Deployment**  
   Simplify deployment by only launching the Coral server; Coral automatically handles instantiation and management of agent instances.
@@ -86,7 +86,7 @@ A fully working local Coral setup with:
 You'll also gain the capability to:
 - Create and manage agent sessions using the UI.
 - Route messages between agents using structured threads.
-- Customize and expand your agent ecosystem according to your specific needs.
+- Customise and expand your agent ecosystem according to your specific needs.
 
 
 
@@ -107,7 +107,7 @@ These are required to run agents, Coral Server, Coral Studio, and external LLMs 
 
 | Tool | Version | Why You Need It |
 |------|---------|------------------|
-| **Docker** | latest | To run Coral Server and agents in containerized environments |
+| **Docker** | latest | To run Coral Server and agents in containerised environments |
 | **Python** | 3.10+ | Needed for most agents (especially LangChain-based) |
 | **uv** | latest | Python environment & dependency manager (`pip3 install uv`) |
 | **Node.js** | 18+ | Required to run Coral Studio (the UI) |
@@ -140,9 +140,13 @@ This step walks you through installing and running Coral Studio locally on your 
 ### 1. Run coral studio
 
 Open your terminal (Git Bash or PowerShell) and run:
+(requires yarn, if you don't have it, install with `npm install -g yarn`)
 
 ```bash
-docker run -p 3000:3000 ghcr.io/coral-protocol/coral-studio
+git clone git@github.com:Coral-Protocol/coral-studio.git
+cd coral-studio
+yarn install
+yarn dev
 ```
 
 This will start the Studio UI at:
@@ -169,31 +173,27 @@ You should see:
 
 In this step, you'll set up and start Coral Server locally using your own `application.yaml` config.
 
-### 1. Run the Coral Server from Docker
-
-First we will create a temporary application.yaml file which we will later populate with our agents.
+### 1. Run the Coral Server from source
 
 ```bash
-mkdir config # create a config folder
-touch config/application.yaml # create an empty application.yaml file, in the config folder
+git clone git@github.com:Coral-Protocol/coral-server.git
+cd coral-server
+./gradlew run
 ```
-
-```bash
-docker run --name coral-server -p 5555:5555 -v ./config:/config ghcr.io/coral-protocol/coral-server
-```
+[Note!]: this will get stuck at 86%, this is a gradle quirk, if the logs say the server has started then it has started.
 
 This will launch the server,
 which acts as a control pane that creates instances of agents
 connected to their individualised MCP servers allowing them to communicate and collaborate.
 
-
+The application.yaml file is at coral-server/src/main/resources/application.yaml. This is where the agents are defined, think of it like a docker image registry, but for agents that might be running outside docker or in docker, or via another runtime.
 ---
 
 ## Choose Your Agent
 
 Before building a multi-agent system, we need to decide **what kind of task our agent will perform**. With **Coral**, you can pick from a list of existing agents OR write your own.
 
-### Choose Agents from Coral Awsome Agents
+### Choose Agents from Coral Awesome Agents
 
 Visit the official Coral community list:
 
@@ -203,7 +203,7 @@ Visit the official Coral community list:
 
 From there, pick one. For this tutorial, we're using:
 
-### Choose Agents for Your Use Case
+### Choose Agents for Your Use Case (general guideline for future)
 
 We are using an Interface Agent, Deep Research Agent, and Repo Understanding Agent to build a multi-agent system that can take in user requests for a GitHub link, understand the link and the repository, and then have the Deep Research Agent generate a full report on it.
 
@@ -242,8 +242,8 @@ coral-interface:
       - name: "OPENAI_API_KEY"
         from: "OPENAI_API_KEY"
 ```
-Update application.yaml file as needed as per your selected number of agents. Above one is example of just 1 agent, you can add more as you want just rename the agent filename
-that want to run and keep rest is same.
+Update the application.yaml file as needed as per your selected number of agents. Above one is example of just 1 agent, you can add more as you want just rename the agent filename
+that want to run and keep rest is same. We'll talk more about the application.yaml should be in a second.
 
 ### Interface Agent
 
