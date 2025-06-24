@@ -174,7 +174,7 @@ You should see:
 In this step, you'll set up and start Coral Server locally using your own `application.yaml` config.
 
 ### 1. Run the Coral Server from source
-
+(Windows users: ensure to set `$env:CORAL_DOCKER_SOCKET = "tcp://127.0.0.1:2375"` and configure Docker desktop to expose the socket at that address without TLS in order to let the server do orchestration via Docker)
 ```bash
 git clone git@github.com:Coral-Protocol/coral-server.git
 cd coral-server
