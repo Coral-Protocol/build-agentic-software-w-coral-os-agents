@@ -105,18 +105,15 @@ These are required to run agents, Coral Server, Coral Studio, and external LLMs 
 
 ### Required Tools & Versions
 
-| Tool | Version | Why You Need It |
-|------|---------|------------------|
-| **Docker** | latest | To run Coral Server and agents in containerised environments |
-| **Python** | 3.10+ | Needed for most agents (especially LangChain-based) |
+| Tool | Version | Why You Need It                                             |
+|------|---------|-------------------------------------------------------------|
+| **Python** | 3.10+ | Needed for most agents (especially LangChain-based)         |
 | **uv** | latest | Python environment & dependency manager (`pip3 install uv`) |
-| **Node.js** | 18+ | Required to run Coral Studio (the UI) |
-| **npm** | Comes with Node | Used to install and run Studio dependencies |
-| **Java (JDK)** | 17+ | Some agents require JVM support |
-| **Git** | latest | To clone agent and Coral repos |
-| **OpenAI API Key** | Any | Needed for agents using OpenAI models (GPT) |
-| **Postman** (optional) | latest | For testing Coral Server API directly |
-| **curl** (optional) | Any | CLI alternative to Postman for testing API calls |
+| **Node.js** | 18+ | Required to run Coral Studio (the UI)                       |
+| **npm** | Comes with Node | Used to install and run Studio dependencies                 |
+| **Git** | latest | To clone agent and Coral repos                              |
+| **OpenAI API Key** | Any | Needed for agents using OpenAI models (GPT)                 |
+| **curl** (optional) | Any | Or anything else for testing API calls                      |
 
 ### Recommended Tools
 
@@ -166,6 +163,17 @@ You should see:
 [//]: # (<img width="957" alt="Image" src="https://github.com/user-attachments/assets/819ce48e-b740-459f-a0aa-9eb23ec66c1f" />)
 
 ---
+## Note on Docker
+All of these components are possible to run in Docker containers, but for this guide we will be running them locally.
+
+See our Docker guide for more details on how to run Coral in Docker: [Coral Docker Guide](./docker-guide.md)
+
+## Note on Windows
+If you're on Windows, you may need to use Git Bash or WSL (Windows Subsystem for Linux) to run the commands in this guide. PowerShell may not work correctly with some of the commands.
+
+WSL 2 works, but WSL1 performs better.
+
+Alternatively, you may use Docker, but Windows users may suffer from performance issues with Docker Desktop since windows forces all containers to run in WSL2.
 
 ## Run the coral server
 
@@ -174,7 +182,7 @@ You should see:
 In this step, you'll set up and start Coral Server locally using your own `application.yaml` config.
 
 ### 1. Run the Coral Server from source
-(Windows users: ensure to set `$env:CORAL_DOCKER_SOCKET = "tcp://127.0.0.1:2375"` and configure Docker desktop to expose the socket at that address without TLS in order to let the server do orchestration via Docker)
+
 ```bash
 git clone git@github.com:Coral-Protocol/coral-server.git
 cd coral-server
@@ -219,8 +227,7 @@ Pick one or more agents depending on your goal.
 
 You can mix and match based on what you're trying to build.
 
-For each agent you want to use, you need to find their Agent Snippets. If you are going to run it via the Docker Orchestrator, you will need to copy the Docker Agent Definition.
-
+For each agent you want to use, you need to find their Agent Snippets. Here we will be using the execution runtime, which means the server will be running commands to run the agent.
 
 ### Copy Agent Snippets (YAML Format)
 
@@ -244,6 +251,15 @@ coral-interface:
 ```
 Update the application.yaml file as needed as per your selected number of agents. Above one is example of just 1 agent, you can add more as you want just rename the agent filename
 that want to run and keep rest is same. We'll talk more about the application.yaml should be in a second.
+
+Clone each agent's repository to your local machine to have their source available for execution.
+
+```
+cd ../
+git clone https://github.com/Coral-Protocol/Coral-Interface-Agent
+git clone https://github.com/Coral-Protocol/Coral-RepoUnderstanding-Agent
+git clone https://github.com/Coral-Protocol/Coral-OpenDeepResearch-Agent
+```
 
 ### Interface Agent
 
@@ -273,13 +289,6 @@ We'll edit the file we made earlier to have the agents we want.
 
 Edit `config/application.yaml`
 
-### Pull the Agent Docker Images
-
-```bash
-docker pull coralprotocol/coral-repounderstanding
-docker pull coralprotocol/coral-opendeepresearch
-docker pull coralprotocol/coral-interface-agent
-```
 
 ### Sample Config Structure
 
@@ -299,41 +308,49 @@ applications:
 
 # Registry of agents we can orchestrate
 registry:
-  repounderstanding:
-    # Exposed configuration for consumers of this agent
+  coral-repo:
     options:
       - name: "OPENAI_API_KEY"
         type: "string"
-        description: "OpenAI API Key"
+        description: "OpenAI API Key for RepoUnderstanding Agent"
       - name: "GITHUB_ACCESS_TOKEN"
         type: "string"
         description: "GitHub Access Token"
-
-    # How this agent is actually orchestrated locally
     runtime:
-      type: "docker"
+      type: "executable"
+      command:
+              [
+                "bash",
+                "-c",
+                "cd ../Coral-RepoUnderstanding-Agent && uv sync && uv run 4-langchain-RepoUnderstandingAgent.py",
+              ]
       environment:
-        - name: "API_KEY"
+        - name: "OPENAI_API_KEY"
           from: "OPENAI_API_KEY"
         - name: "GITHUB_ACCESS_TOKEN"
           from: "GITHUB_ACCESS_TOKEN"
-      image: "coralprotocol/coral-repounderstanding:latest"
 
-  deepresearch:
+  coral-research:
     options:
       - name: "OPENAI_API_KEY"
         type: "string"
-        description: "OpenAI API Key"
+        description: "OpenAI API Key for OpenDeepResearch agent"
       - name: "LINKUP_API_KEY"
         type: "string"
-        description: "LinkUp API Key. Get from https://linkup.so/"
-
+        description: "LinkUp API Key for OpenDeepResearch agent"
     runtime:
-      type: "docker"
+      type: "executable"
+      command:
+              [
+                "bash",
+                "-c",
+                "cd ../Coral-OpenDeepResearch-Agent && uv sync && uv run python langchain_open_deep_research.py",
+              ]
       environment:
-        - name: "API_KEY"
+        - name: "OPENAI_API_KEY"
           from: "OPENAI_API_KEY"
-      image: "coralprotocol/coral-opendeepresearch:latest"
+        - name: "LINKUP_API_KEY"
+          from: "LINKUP_API_KEY"
 
   interface:
     options:
@@ -345,7 +362,7 @@ registry:
         description: "Human response to be used in the interface agent"
 
     runtime:
-      type: "docker"
+      type: "executable"
       image: "coralprotocol/coral-interface-agent:latest"
       environment:
         - name: "API_KEY"
@@ -371,12 +388,7 @@ After editing your `application.yaml` file, the server will have hot-reloaded th
 ### 1. Ensure the server has reloaded the new configuration
 
 Check the coral server logs in the terminal where you started it. You should see messages indicating that the agents have been loaded successfully.
-If it's running headless, you can check the logs by running:
-
-```bash
-docker logs coral-server
-```
-
+ 
 [//]: # (TODO: Link separately to different ways of creating sessions)
 [//]: # (### Connect your Agents using a session)
 
