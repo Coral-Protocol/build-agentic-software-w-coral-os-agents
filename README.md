@@ -257,8 +257,14 @@ Clone each agent's repository to your local machine to have their source availab
 ```
 cd ../
 git clone https://github.com/Coral-Protocol/Coral-Interface-Agent
+cd Coral-Interface-Agent
+uv sync
 git clone https://github.com/Coral-Protocol/Coral-RepoUnderstanding-Agent
+cd ../Coral-RepoUnderstanding-Agent
+uv sync
 git clone https://github.com/Coral-Protocol/Coral-OpenDeepResearch-Agent
+cd ../Coral-OpenDeepResearch-Agent
+uv sync
 ```
 
 ### Interface Agent
