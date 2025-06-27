@@ -363,7 +363,12 @@ registry:
 
     runtime:
       type: "executable"
-      image: "coralprotocol/coral-interface-agent:latest"
+      command:
+              [
+                "bash",
+                "-c",
+                "cd ../Coral-Interface-Agent && uv sync && uv run python 0-langchain-interface.py",
+              ]
       environment:
         - name: "API_KEY"
           from: "OPENAI_API_KEY"
