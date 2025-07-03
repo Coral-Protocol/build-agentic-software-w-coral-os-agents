@@ -229,6 +229,11 @@ You can mix and match based on what you're trying to build.
 
 For each agent you want to use, you need to find their Agent Snippets. Here we will be using the execution runtime, which means the server will be running commands to run the agent.
 
+### Setup the Agents
+
+- In this example, we are using the agents: [Coral Interface Agent](https://github.com/Coral-Protocol/Coral-Interface-Agent/tree/main), [Open Deep Research Agent](https://github.com/Coral-Protocol/Coral-OpenDeepResearch-Agent/tree/main) and the [Repo Understanding Agent](https://github.com/Coral-Protocol/Coral-RepoUnderstanding-Agent/tree/main).
+- Please click on the link and set up the agents by following the setup instructions in the repository.
+
 ### Copy Agent Snippets (YAML Format)
 
 Each agent in the registry provides a snippet like this:
@@ -257,20 +262,6 @@ Each agent in the registry provides a snippet like this:
 Update the application.yaml file as needed as per your selected number of agents. Above one is example of just 1 agent, you can add more as you want just rename the agent filename
 that want to run and keep rest is same. We'll talk more about the application.yaml should be in a second.
 
-Clone each agent's repository to your local machine to have their source available for execution.
-
-```
-cd ../
-git clone https://github.com/Coral-Protocol/Coral-Interface-Agent
-cd Coral-Interface-Agent
-uv sync
-git clone https://github.com/Coral-Protocol/Coral-RepoUnderstanding-Agent
-cd ../Coral-RepoUnderstanding-Agent
-uv sync
-git clone https://github.com/Coral-Protocol/Coral-OpenDeepResearch-Agent
-cd ../Coral-OpenDeepResearch-Agent
-uv sync
-```
 
 ### Interface Agent
 
