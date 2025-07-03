@@ -299,6 +299,8 @@ Here's a sample setup using 3 agents: `interface_agent`, `opendeepresearch_agent
 If you're following along, paste this into your `application.yaml` file.
 
 ```yaml
+# PROJECT_DIR="/PATH/TO/YOUR/REPO"
+
 applications:
   - id: "app"
     name: "Default Application"
