@@ -234,20 +234,25 @@ For each agent you want to use, you need to find their Agent Snippets. Here we w
 Each agent in the registry provides a snippet like this:
 
 ```yaml
-coral-interface:
-  options:
-    - name: "OPENAI_API_KEY"
-      type: "string"
-      description: "OpenAI Key"
-  runtime:
-    type: "executable"
-    command:
-      - "bash"
-      - "-c"
-      - "cd ../Coral-Interface-Agent && uv sync && uv run python 0-langchain-interface.py"
-    environment:
-      - name: "OPENAI_API_KEY"
-        from: "OPENAI_API_KEY"
+ interface_agent:
+    options:
+      - name: "API_KEY"
+        type: "string"
+        description: "API key for the service"
+    runtime:
+      type: "executable"
+      command: ["bash", "-c", "${PROJECT_DIR}/run_agent.sh main.py"]
+      environment:
+        - name: "API_KEY"
+          from: "API_KEY"
+        - name: "MODEL_NAME"
+          value: "gpt-4.1"
+        - name: "MODEL_PROVIDER"
+          value: "openai"
+        - name: "MODEL_TOKEN"
+          value: "16000"
+        - name: "MODEL_TEMPERATURE"
+          value: "0.3"
 ```
 Update the application.yaml file as needed as per your selected number of agents. Above one is example of just 1 agent, you can add more as you want just rename the agent filename
 that want to run and keep rest is same. We'll talk more about the application.yaml should be in a second.
@@ -298,7 +303,7 @@ Edit `config/application.yaml`
 
 ### Sample Config Structure
 
-Here's a sample setup using 3 agents: `coral-interface`, `coral-repo`, and `coral-research`.
+Here's a sample setup using 3 agents: `interface_agent`, `opendeepresearch_agent`, and `repo_understanding_agent`.
 
 If you're following along, paste this into your `application.yaml` file.
 
@@ -314,72 +319,71 @@ applications:
 
 # Registry of agents we can orchestrate
 registry:
-  coral-repo:
+
+  interface_agent:
     options:
-      - name: "OPENAI_API_KEY"
+      - name: "API_KEY"
         type: "string"
-        description: "OpenAI API Key for RepoUnderstanding Agent"
-      - name: "GITHUB_ACCESS_TOKEN"
-        type: "string"
-        description: "GitHub Access Token"
+        description: "API key for the service"
     runtime:
       type: "executable"
-      command:
-              [
-                "bash",
-                "-c",
-                "cd ../Coral-RepoUnderstanding-Agent && uv sync && uv run 4-langchain-RepoUnderstandingAgent.py",
-              ]
-      environment:
-        - name: "OPENAI_API_KEY"
-          from: "OPENAI_API_KEY"
-        - name: "GITHUB_ACCESS_TOKEN"
-          from: "GITHUB_ACCESS_TOKEN"
-
-  coral-research:
-    options:
-      - name: "OPENAI_API_KEY"
-        type: "string"
-        description: "OpenAI API Key for OpenDeepResearch agent"
-      - name: "LINKUP_API_KEY"
-        type: "string"
-        description: "LinkUp API Key for OpenDeepResearch agent"
-    runtime:
-      type: "executable"
-      command:
-              [
-                "bash",
-                "-c",
-                "cd ../Coral-OpenDeepResearch-Agent && uv sync && uv run python langchain_open_deep_research.py",
-              ]
-      environment:
-        - name: "OPENAI_API_KEY"
-          from: "OPENAI_API_KEY"
-        - name: "LINKUP_API_KEY"
-          from: "LINKUP_API_KEY"
-
-  interface:
-    options:
-      - name: "OPENAI_API_KEY"
-        type: "string"
-        description: "OpenAI API Key"
-      - name: "HUMAN_RESPONSE"
-        type: "string"
-        description: "Human response to be used in the interface agent"
-
-    runtime:
-      type: "executable"
-      command:
-              [
-                "bash",
-                "-c",
-                "cd ../Coral-Interface-Agent && uv sync && uv run python 0-langchain-interface.py",
-              ]
+      command: ["bash", "-c", "${PROJECT_DIR}/run_agent.sh main.py"]
       environment:
         - name: "API_KEY"
-          from: "OPENAI_API_KEY"
-        - name: "HUMAN_RESPONSE"
-          from: "HUMAN_RESPONSE"
+          from: "API_KEY"
+        - name: "MODEL_NAME"
+          value: "gpt-4.1"
+        - name: "MODEL_PROVIDER"
+          value: "openai"
+        - name: "MODEL_TOKEN"
+          value: "16000"
+        - name: "MODEL_TEMPERATURE"
+          value: "0.3"
+
+ opendeepresearch_agent:
+    options:
+      - name: "API_KEY"
+        type: "string"
+        description: "API key for the service"
+    runtime:
+      type: "executable"
+      command: ["bash", "-c", "${PROJECT_DIR}/run_agent.sh main.py"]
+      environment:
+        - name: "API_KEY"
+          from: "API_KEY"
+        - name: "MODEL_NAME"
+          value: "gpt-4.1"
+        - name: "MODEL_PROVIDER"
+          value: "openai"
+        - name: "MODEL_TOKEN"
+          value: "16000"
+        - name: "MODEL_TEMPERATURE"
+          value: "0.3"
+
+  repo_understanding_agent:
+    options:
+      - name: "API_KEY"
+        type: "string"
+        description: "API key for the service"
+      - name: "GITHUB_ACCESS_TOKEN"
+        type: "string"
+        description: "key for the github service"
+    runtime:
+      type: "executable"
+      command: ["bash", "-c", "${PROJECT_DIR}/run_agent.sh main.py"]
+      environment:
+        - name: "API_KEY"
+          from: "API_KEY"
+        - name: "GITHUB_ACCESS_TOKEN"
+          from: "GITHUB_ACCESS_TOKEN"
+        - name: "MODEL_NAME"
+          value: "gpt-4.1"
+        - name: "MODEL_PROVIDER"
+          value: "openai"
+        - name: "MODEL_TOKEN"
+          value: "16000"
+        - name: "MODEL_TEMPERATURE"
+          value: "0.3"
 
 ```
 
