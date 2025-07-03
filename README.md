@@ -221,9 +221,9 @@ Pick one or more agents depending on your goal.
 
 | Agent ID          | Description                                     |
 |-------------------|-------------------------------------------------|
-| `coral-interface` | An interface agent that coordinates actions     |
-| `coral-research`  | Performs deep research using LLM + tools        |
-| `coral-repo`      | Analyzes GitHub repos using LangChain           |
+| `interface_agent` | An interface agent that coordinates actions     |
+| `opendeepresearch_agent`  | Performs deep research using LLM + tools        |
+| `repo_understanding_agent`      | Analyzes GitHub repos using LangChain           |
 
 You can mix and match based on what you're trying to build.
 
