@@ -5,7 +5,6 @@ It makes the most sense to run only the agents in docker, since the server itsel
 If you're really struggling to run the coral server locally, you can run it in docker as well, but it's not recommended:
 
 
-
 ### Pull the Agent Docker Images
 
 ```bash
