@@ -379,6 +379,12 @@ registry:
           value: "0.3"
 
 ```
+For Windows, create a powershell command (run_agent.ps1) and run:
+
+```bash
+command: ["powershell","-ExecutionPolicy", "Bypass", "-File", "${PROJECT_DIR}/run_agent.ps1","main.py"]
+```
+
 
 [//]: # (TODO: Explain the YAML structure and how to add more agents)
 ---
