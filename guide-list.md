@@ -23,11 +23,17 @@ Coral is well-tested with the following agent frameworks:
 
 ## Courses
 
-... under construction ...
-### Quick Start Course (15 minutes)
+### Quick Start Course for experienced developers (15 minutes)
+[Getting the coral server running locally](./running-coral-server.md)
 
-#### Building your first Coral application
+[Connecting to the Coral server with Coral Studio](./connecting-to-coral-studio.md)
+
+[Sessions API reference](./sessions.md)
+
+[Orchestration reference](./orchestration-registry.md)
+
+[//]: # (#### Building your first Coral application)
 
 
-### Become a Coral expert in 1 hour:
-1. 
+[//]: # (### Become a Coral expert in 1 hour:)
+[//]: # (1. )
