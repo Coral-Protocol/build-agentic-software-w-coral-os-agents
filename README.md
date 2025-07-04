@@ -218,6 +218,7 @@ We are using an Interface Agent, Deep Research Agent, and Repo Understanding Age
 Pick one or more agents depending on your goal. 
 
 **Example setup:**
+[![Example Demo](assets/coral-example-yt.png)](https://www.youtube.com/watch?v=tpHeSTSajCw)
 
 | Agent ID          | Description                                     |
 |-------------------|-------------------------------------------------|
