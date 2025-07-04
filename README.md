@@ -119,7 +119,6 @@ These are required to run agents, Coral Server, Coral Studio, and external LLMs 
 
 | Tool | Reason |
 |------|--------|
-| **Anaconda** | Easy Python env management (optional but useful) |
 | **Git Bash** (Windows) | Better than PowerShell for running shell commands |
 | **Visual Studio Code** | IDE for editing agent code and config |
 | **`.env` file support** | Use for storing API keys securely |
