@@ -539,5 +539,5 @@ An agent definition consists of:
         2. `name`/`from` - an environment variable where the value is derived from an option, where `from` is the option we pull the value from
         3. `option` - shorthand for `name`/`from`, for when they both have the same value
 
-## Executable runtime
-- When using the `executable` runtime, an extra environment variable (`CORAL_CONNECTION_URL`) is automatically injected, to provide the agent with the correct SSE url for connecting to Coral.
+## Orchestration
+- When an agent is ran via the Coral Server's orchestrator. an extra environment variable (`CORAL_CONNECTION_URL`) is automatically injected, to provide the agent with the correct SSE url for connecting to Coral.
