@@ -16,7 +16,7 @@ This is the main recommended way of running the Coral server.
 ### Steps
 Clone the Coral repository:
 ```bash
-git clone git@github.com:Coral-Protocol/coral-server.git
+git clone https://github.com/Coral-Protocol/coral-server.git
 ```
 
 2) Change into the coral-server directory:

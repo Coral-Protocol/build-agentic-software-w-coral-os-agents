@@ -139,7 +139,7 @@ Open your terminal (Git Bash or PowerShell) and run:
 (requires yarn, if you don't have it, install with `npm install -g yarn`)
 
 ```bash
-git clone git@github.com:Coral-Protocol/coral-studio.git
+git clone https://github.com/Coral-Protocol/coral-server.git
 cd coral-studio
 yarn install
 yarn dev
@@ -183,7 +183,7 @@ In this step, you'll set up and start Coral Server locally using your own `appli
 ### 1. Run the Coral Server from source
 
 ```bash
-git clone git@github.com:Coral-Protocol/coral-server.git
+git clone https://github.com/Coral-Protocol/coral-server.git
 cd coral-server
 ./gradlew run
 ```
