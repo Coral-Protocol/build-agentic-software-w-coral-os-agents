@@ -299,7 +299,7 @@ Here's a sample setup using 3 agents: `interface_agent`, `opendeepresearch_agent
 If you're following along, paste this into your `application.yaml` file.
 
 ```yaml
-# PROJECT_DIR="/PATH/TO/YOUR/REPO"
+# replace ${PROJECT_DIR} with YOUR/PROJECT/DIRECTORY
 
 applications:
   - id: "app"
@@ -310,17 +310,15 @@ applications:
       - "public"
       - "priv"
 
-# Registry of agents we can orchestrate
 registry:
-
-  interface_agent:
+  interface:
     options:
       - name: "API_KEY"
         type: "string"
         description: "API key for the service"
     runtime:
       type: "executable"
-      command: ["bash", "-c", "${PROJECT_DIR}/Coral-Interface-Agent/run_agent.sh main.py"]
+      command: ["bash", "-c", "/home/suman/projects/coral_protocol/software_agents/interface/Coral-Interface-Agent/run_agent.sh main.py"]
       environment:
         - name: "API_KEY"
           from: "API_KEY"
@@ -335,15 +333,15 @@ registry:
 
   opendeepresearch_agent:
     options:
-      - name: "API_KEY"
+      - name: "OPENAI_API_KEY"
         type: "string"
         description: "API key for the service"
     runtime:
       type: "executable"
-      command: ["bash", "-c", "${PROJECT_DIR}/Coral-OpenDeepResearch-Agent/run_agent.sh main.py"]
+      command: ["bash", "-c", "/home/suman/projects/coral_protocol/software_agents/Coral-OpenDeepResearch-Agent/run_agent.sh main.py"]
       environment:
-        - name: "API_KEY"
-          from: "API_KEY"
+        - name: "OPENAI_API_KEY"
+          from: "OPENAI_API_KEY"
         - name: "MODEL_NAME"
           value: "gpt-4.1"
         - name: "MODEL_PROVIDER"
@@ -363,7 +361,7 @@ registry:
         description: "key for the github service"
     runtime:
       type: "executable"
-      command: ["bash", "-c", "${PROJECT_DIR}/Coral-RepoUnderstanding-Agent/run_agent.sh main.py"]
+      command: ["bash", "-c", "/home/suman/projects/coral_protocol/software_agents/Coral-RepoUnderstanding-Agent/run_agent.sh main.py"]
       environment:
         - name: "API_KEY"
           from: "API_KEY"
