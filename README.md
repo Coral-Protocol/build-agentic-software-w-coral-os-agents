@@ -318,7 +318,7 @@ registry:
         description: "API key for the service"
     runtime:
       type: "executable"
-      command: ["bash", "-c", "/home/suman/projects/coral_protocol/software_agents/interface/Coral-Interface-Agent/run_agent.sh main.py"]
+      command: ["bash", "-c", "${PROJECT_DIR}/Coral-Interface-Agent/run_agent.sh main.py"]
       environment:
         - name: "API_KEY"
           from: "API_KEY"
@@ -338,7 +338,7 @@ registry:
         description: "API key for the service"
     runtime:
       type: "executable"
-      command: ["bash", "-c", "/home/suman/projects/coral_protocol/software_agents/Coral-OpenDeepResearch-Agent/run_agent.sh main.py"]
+      command: ["bash", "-c", "${PROJECT_DIR}/Coral-OpenDeepResearch-Agent/run_agent.sh main.py"]
       environment:
         - name: "OPENAI_API_KEY"
           from: "OPENAI_API_KEY"
@@ -361,7 +361,7 @@ registry:
         description: "key for the github service"
     runtime:
       type: "executable"
-      command: ["bash", "-c", "/home/suman/projects/coral_protocol/software_agents/Coral-RepoUnderstanding-Agent/run_agent.sh main.py"]
+      command: ["bash", "-c", "${PROJECT_DIR}/Coral-RepoUnderstanding-Agent/run_agent.sh main.py"]
       environment:
         - name: "API_KEY"
           from: "API_KEY"
