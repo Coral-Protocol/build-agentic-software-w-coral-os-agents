@@ -336,14 +336,19 @@ registry:
       - name: "OPENAI_API_KEY"
         type: "string"
         description: "API key for the service"
+      - name: "LINKUP_API_KEY"
+        type: "string"
+        description: "LINKUP_API_KEY for the service"
     runtime:
       type: "executable"
       command: ["bash", "-c", "${PROJECT_DIR}/Coral-OpenDeepResearch-Agent/run_agent.sh main.py"]
       environment:
         - name: "OPENAI_API_KEY"
           from: "OPENAI_API_KEY"
+        - name: "LINKUP_API_KEY"
+          from: "LINKUP_API_KEY"
         - name: "MODEL_NAME"
-          value: "gpt-4.1"
+          value: "gpt-4.1-2025-04-14"
         - name: "MODEL_PROVIDER"
           value: "openai"
         - name: "MODEL_TOKEN"
